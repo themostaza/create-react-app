@@ -193,6 +193,8 @@ module.exports = {
                 loader: require.resolve('css-loader'),
                 options: {
                   importLoaders: 1,
+                  modules: process.env.REACT_APP_ENABLE_CSS_MODULES ? true : false,
+                  localIdentName: process.env.REACT_APP_ENABLE_CSS_MODULES ? "[name]__[local]___[hash:base64:5]" : undefined,
                 },
               },
               {

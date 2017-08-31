@@ -79,9 +79,7 @@ module.exports = {
     publicPath: publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
-      path
-        .relative(paths.appSrc, info.absoluteResourcePath)
-        .replace(/\\/g, '/'),
+      path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -105,9 +103,7 @@ module.exports = {
       // It usually still works on npm 3 without this but it would be
       // unfortunate to rely on, as react-scripts could be symlinked,
       // and thus babel-runtime might not be resolvable from the source.
-      'babel-runtime': path.dirname(
-        require.resolve('babel-runtime/package.json')
-      ),
+      'babel-runtime': path.dirname(require.resolve('babel-runtime/package.json')),
       // @remove-on-eject-end
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
@@ -216,18 +212,28 @@ module.exports = {
                         // Necessary for external CSS imports to work
                         // https://github.com/facebookincubator/create-react-app/issues/2677
                         ident: 'postcss',
-                        plugins: () => [
-                          require('postcss-flexbugs-fixes'),
-                          autoprefixer({
-                            browsers: [
-                              '>1%',
-                              'last 4 versions',
-                              'Firefox ESR',
-                              'not ie < 9', // React doesn't support IE8 anyway
-                            ],
-                            flexbox: 'no-2009',
-                          }),
-                        ],
+                        plugins: () =>
+                          [
+                            process.env.REACT_APP_ENABLE_POSTCSS_IMPORT
+                              ? require('postcss-import')({
+                                  addDependencyTo: context.webpack,
+                                  path: [paths.appSrc],
+                                })
+                              : null,
+                            process.env.REACT_APP_ENABLE_POSTCSS_CSSNEXT
+                              ? require('postcss-cssnext')
+                              : null,
+                            require('postcss-flexbugs-fixes'),
+                            autoprefixer({
+                              browsers: [
+                                '>1%',
+                                'last 4 versions',
+                                'Firefox ESR',
+                                'not ie < 9', // React doesn't support IE8 anyway
+                              ],
+                              flexbox: 'no-2009',
+                            }),
+                          ].filter(x => x === null),
                       },
                     },
                   ],

@@ -233,7 +233,7 @@ module.exports = {
                               ],
                               flexbox: 'no-2009',
                             }),
-                          ].filter(x => x === null),
+                          ].filter(x => x !== null),
                       },
                     },
                   ],

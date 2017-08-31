@@ -175,8 +175,9 @@ module.exports = function(
   console.log(chalk.cyan('  cd'), cdpath);
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
   console.log();
-  console.log(chalk.red('You are using react-scripts-mostaza, available ENV vars:'));
-  console.log('- REACT_APP_ENABLE_CSS_MODULES');
+  console.log('You are using react-scripts-mostaza, available ENV vars:');
+  console.log(chalk.cyan('  REACT_APP_ENABLE_CSS_MODULES'));
+  console.log('    Enables CSS modules.');
   console.log();
   if (readmeExists) {
     console.log();

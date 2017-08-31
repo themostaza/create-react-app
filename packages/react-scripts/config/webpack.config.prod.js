@@ -205,6 +205,7 @@ module.exports = {
                       loader: require.resolve('css-loader'),
                       options: {
                         importLoaders: 1,
+                        modules: process.env.REACT_APP_ENABLE_CSS_MODULES ? true : false,
                         minimize: true,
                         sourceMap: shouldUseSourceMap,
                       },

@@ -205,6 +205,7 @@ module.exports = {
                   ident: 'postcss',
                   plugins: context =>
                     [
+                      require('postcss-flexbugs-fixes'),
                       process.env.REACT_APP_ENABLE_POSTCSS_IMPORT
                         ? require('postcss-import')({
                             addDependencyTo: context.webpack,
@@ -213,18 +214,18 @@ module.exports = {
                         : null,
                       process.env.REACT_APP_ENABLE_POSTCSS_CSSNEXT
                         ? require('postcss-cssnext')
-                        : null,
-                      require('postcss-flexbugs-fixes'),
-                      autoprefixer({
-                        browsers: [
-                          '>1%',
-                          'last 4 versions',
-                          'Firefox ESR',
-                          'not ie < 9', // React doesn't support IE8 anyway
-                        ],
-                        flexbox: 'no-2009',
-                      }),
-                    ].filter(x => x === null),
+                        : // autoprefixer is included in cssnext
+                          autoprefixer({
+                            browsers: [
+                              '>1%',
+                              'last 4 versions',
+                              'Firefox ESR',
+                              'not ie < 9', // React doesn't support IE8 anyway
+                            ],
+                            flexbox: 'no-2009',
+                          }),
+                      ,
+                    ].filter(x => x !== null),
                 },
               },
             ],

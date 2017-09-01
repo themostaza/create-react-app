@@ -212,8 +212,9 @@ module.exports = {
                         // Necessary for external CSS imports to work
                         // https://github.com/facebookincubator/create-react-app/issues/2677
                         ident: 'postcss',
-                        plugins: () =>
+                        plugins: context =>
                           [
+                            require('postcss-flexbugs-fixes'),      
                             process.env.REACT_APP_ENABLE_POSTCSS_IMPORT
                               ? require('postcss-import')({
                                   addDependencyTo: context.webpack,
@@ -222,18 +223,19 @@ module.exports = {
                               : null,
                             process.env.REACT_APP_ENABLE_POSTCSS_CSSNEXT
                               ? require('postcss-cssnext')
-                              : null,
-                            require('postcss-flexbugs-fixes'),
-                            autoprefixer({
-                              browsers: [
-                                '>1%',
-                                'last 4 versions',
-                                'Firefox ESR',
-                                'not ie < 9', // React doesn't support IE8 anyway
-                              ],
-                              flexbox: 'no-2009',
-                            }),
+                              : // autoprefixer is included in cssnext
+                                autoprefixer({
+                                  browsers: [
+                                    '>1%',
+                                    'last 4 versions',
+                                    'Firefox ESR',
+                                    'not ie < 9', // React doesn't support IE8 anyway
+                                  ],
+                                  flexbox: 'no-2009',
+                                }),
+                            ,
                           ].filter(x => x !== null),
+                      },
                       },
                     },
                   ],

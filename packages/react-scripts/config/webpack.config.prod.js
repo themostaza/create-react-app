@@ -214,7 +214,7 @@ module.exports = {
                         ident: 'postcss',
                         plugins: context =>
                           [
-                            require('postcss-flexbugs-fixes'),      
+                            require('postcss-flexbugs-fixes'),
                             process.env.REACT_APP_ENABLE_POSTCSS_IMPORT
                               ? require('postcss-import')({
                                   addDependencyTo: context.webpack,
@@ -235,7 +235,6 @@ module.exports = {
                                 }),
                             ,
                           ].filter(x => x !== null),
-                      },
                       },
                     },
                   ],
